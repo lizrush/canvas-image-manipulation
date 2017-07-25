@@ -1,0 +1,10 @@
+<% wrap_layout :layout do %>
+
+  <canvas id='canvas'>
+    It appears that your browser does not support the canvas element.
+  </canvas>
+
+  <%= yield %>
+
+  <%= image_tag 'palmtree.jpg', class: 'hidden' %>
+<% end %>
