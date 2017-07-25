@@ -4,7 +4,7 @@ This is a sample project that consists of an HTML document which uses a canvas e
 
 ## To Dos
 
-- [ ] Set up HTML document which includes an image hidden on the page and a canvas element.
+- [X] Set up HTML document which includes an image hidden on the page and a canvas element.
 - [ ] Write the pixel data from the image to the canvas.
 - [ ] Transform the image into a duotone of complementary colors.
 - [ ] Set the brightness of each pixel to map to a corresponding point on the gradient between the two colors.
