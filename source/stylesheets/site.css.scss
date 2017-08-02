@@ -1,3 +1,8 @@
 .hidden {
-  visibility: hidden;
+  display: none;
+}
+
+canvas {
+  width: 50vw;
+  margin: auto;
 }
