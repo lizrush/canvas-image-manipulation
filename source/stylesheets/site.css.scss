@@ -1,7 +1,8 @@
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
-img {
-  width: 60vw;
+canvas {
+  width: 50vw;
+  margin: auto;
 }
