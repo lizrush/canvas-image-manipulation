@@ -24,5 +24,24 @@ window.onload = function(){
       data[p] = data[p+1] = data[p+2] = avg;
   }
 
+  // Create a gradient from which to pick colors from the duotone
+  // based on pixel luminence.
+  var gradientArray = [];
+  // Color as array for rgb values
+  var green = [80, 254, 16];
+  var red = [254, 16, 16];
+
+  // arbitrarily choosing a gradient of 255 values for each
+  for (var d = 0; d < 255; d += 1) {
+    var ratio = d / 255;
+    var l = ratio;
+    var rA = Math.floor(green[0] * l + green[0] * (1 - l));
+    var gA = Math.floor(green[1] * l + green[1] * (1 - l));
+    var bA = Math.floor(green[2] * l + green[2] * (1 - l));
+    gradientArray.push([rA, gA, bA]);
+  }
+
+  console.log(gradientArray)
+
   ctx.putImageData(imageData, 0, 0);
 };
