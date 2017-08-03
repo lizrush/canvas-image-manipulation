@@ -1,0 +1,58 @@
+$slider-circle-color: #384467;
+$slider-circle-color-hover: #a4bfd1;
+$slider-circle-size: 20px;
+$slider-track-color: #a4bfd1;
+$slider-track-height: 10px;
+$slider-label-color: #384467;
+$slider-label-width: 60px;
+
+.slider {
+  width: 100%;
+
+  .slider__range {
+    width: 100%;
+    -webkit-appearance: none;
+    height: .25em;
+    background: $slider-track-color;
+    // TODO: determine better accessibility handling
+    // Potentially outline just the slider circle.
+    outline: none;
+
+    // Slider Circle Styles
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: $slider-circle-size;
+      height: $slider-circle-size;
+      border-radius: 50%;
+      background: $slider-circle-color;
+      cursor: pointer;
+      transition: background .25s ease;
+
+      &:hover {
+        background: $slider-circle-color-hover;
+      }
+    }
+
+    &:active::-webkit-slider-thumb {
+      background: $slider-circle-color-hover;
+    }
+
+    &::-moz-range-thumb {
+      width: $slider-circle-size;
+      height: $slider-circle-size;
+      border: 0;
+      border-radius: 50%;
+      background: $slider-circle-color;
+      cursor: pointer;
+      transition: background .25s ease;
+
+      &:hover {
+        background: $slider-circle-color-hover;
+      }
+    }
+
+    &:active::-moz-range-thumb {
+      background: $slider-circle-color-hover;
+    }
+  }
+}
