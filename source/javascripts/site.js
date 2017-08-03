@@ -12,17 +12,7 @@ window.onload = function(){
 
   var data = imageData.data;
 
-  // Convert the image to grayscale
-  var r,g,b,avg;
-  for(var p = 0, len = data.length; p < len; p+=4) {
-      r = data[p]
-      g = data[p+1];
-      b = data[p+2];
-
-      avg = Math.floor((r+g+b)/3);
-
-      data[p] = data[p+1] = data[p+2] = avg;
-  }
+  convertImageToGrayscale(data);
 
   // Color as array for rgb values
   // TODO: generate this array from an rgba color
@@ -39,6 +29,20 @@ window.onload = function(){
   ctx.putImageData(imageData, 0, 0);
 };
 
+function convertImageToGrayscale(imageData) {
+  var r, g, b, avg;
+
+  for(var pixel = 0, len = imageData.length; pixel < len; pixel += 4) {
+    r = imageData[pixel]
+    g = imageData[pixel + 1];
+    b = imageData[pixel + 2];
+
+    avg = Math.floor((r + g + b) / 3);
+
+    imageData[pixel] = imageData[pixel + 1] = imageData[pixel + 2] = avg;
+  }
+};
+
 function createGradient(color1, color2) {
   var gradient = [];
 
@@ -49,7 +53,7 @@ function createGradient(color1, color2) {
     var g = Math.floor(color1[1] * l + color2[1] * (1 - l));
     var b = Math.floor(color1[2] * l + color2[2] * (1 - l));
     gradient.push([r, g, b]);
-  }
+  };
 
   return gradient;
-}
+};
