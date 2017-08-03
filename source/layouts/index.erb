@@ -4,6 +4,11 @@
     It appears that your browser does not support the canvas element.
   </canvas>
 
+  <div class='slider'>
+    <input class='slider__range' type='range' value='0' min='0' max='100'>
+    <span class='slider__value'>0</span>
+  </div>
+
   <%= yield %>
 
   <%= image_tag 'palmtree.jpg', id: 'palmtree', class: 'hidden' %>
