@@ -8,11 +8,7 @@ window.onload = function(){
   ctx.drawImage(img, 0, 0, img.width, img.height);
 
   var imageData = ctx.getImageData(0, 0, img.width, img.height);
-  console.log(imageData)
-
   var data = imageData.data;
-
-  convertImageToGrayscale(data);
 
   // Color as array for rgb values
   // TODO: generate this array from an rgba color
@@ -24,10 +20,51 @@ window.onload = function(){
   // based on pixel luminence.
   var gradientArray = createGradient(green, red);
 
-  console.log(gradientArray)
+  var duoToneData =  convertToDuoTone(data, gradientArray);
+  var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
 
   ctx.putImageData(imageData, 0, 0);
 };
+
+function convertToDuoTone(imageData, gradientArray) {
+  var pixels = imageData;
+  var canvas = document.getElementById('canvas');
+
+  var pixelCount = canvas.width * canvas.height;
+  var pixelArray = [];
+
+  convertImageToGrayscale(imageData);
+
+  for (var i = 0; i < pixelCount; i++) {
+    var offset, r, g, b, a;
+
+    offset = i * 4;
+    r = pixels[offset + 0];
+    g = pixels[offset + 1];
+    b = pixels[offset + 2];
+    a = pixels[offset + 3];
+
+    // Average the rgba for HSL conversion
+    // Pixel brightness math from w3 suggested formula:
+    // https://www.w3.org/TR/AERT#color-contrast
+    var average = Math.floor(((299 * r) + (587 * g) + (114 * b)) / 1000);
+    var hsl = rgbToHsl(average, average, average);
+    var luminosity = Math.max(0, Math.min(254, Math.floor((hsl[2] * 254))));
+
+    // Replace values with new values from gradient array
+    r = gradientArray[luminosity][0];
+    g = gradientArray[luminosity][1];
+    b = gradientArray[luminosity][2];
+
+    pixelArray.push(r);
+    pixelArray.push(g);
+    pixelArray.push(b);
+    pixelArray.push(a);
+  }
+
+  return pixelArray;
+};
+
 
 function convertImageToGrayscale(imageData) {
   var r, g, b, avg;
@@ -57,3 +94,39 @@ function createGradient(color1, color2) {
 
   return gradient;
 };
+
+// From https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+/**
+ * Converts an RGB color value to HSL. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes r, g, and b are contained in the set [0, 255] and
+ * returns h, s, and l in the set [0, 1].
+ *
+ * @param   Number  r       The red color value
+ * @param   Number  g       The green color value
+ * @param   Number  b       The blue color value
+ * @return  Array           The HSL representation
+ */
+function rgbToHsl(r, g, b) {
+  r /= 255, g /= 255, b /= 255;
+
+  var max = Math.max(r, g, b), min = Math.min(r, g, b);
+  var h, s, l = (max + min) / 2;
+
+  if (max == min) {
+    h = s = 0; // achromatic
+  } else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+
+    h /= 6;
+  }
+
+  return [ h, s, l ];
+}
