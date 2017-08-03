@@ -9,6 +9,7 @@ window.onload = function(){
 
   var imageData = ctx.getImageData(0, 0, img.width, img.height);
   var data = imageData.data;
+  var pixelCount = canvas.width * canvas.height;
 
   // Color as array for rgb values
   // TODO: generate this array from an rgba color
@@ -20,20 +21,17 @@ window.onload = function(){
   // based on pixel luminence.
   var gradientArray = createGradient(green, red);
 
-  var duoToneData =  convertToDuoTone(data, gradientArray);
+  var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
   var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
 
   ctx.putImageData(imageData, 0, 0);
 };
 
-function convertToDuoTone(imageData, gradientArray) {
+function convertToDuoTone(imageData, pixelCount, gradientArray) {
   var pixels = imageData;
-  var canvas = document.getElementById('canvas');
-
-  var pixelCount = canvas.width * canvas.height;
   var pixelArray = [];
 
-  convertImageToGrayscale(imageData);
+  convertImageToGrayscale(pixels);
 
   for (var i = 0; i < pixelCount; i++) {
     var offset, r, g, b, a;
