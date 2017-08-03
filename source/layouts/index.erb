@@ -1,15 +1,16 @@
 <% wrap_layout :layout do %>
 
-  <canvas id='canvas'>
-    It appears that your browser does not support the canvas element.
-  </canvas>
+  <div class='container'>
+    <canvas id='canvas'>
+      It appears that your browser does not support the canvas element.
+    </canvas>
 
-  <div class='slider'>
-    <input class='slider__range' type='range' value='0' min='0' max='100'>
-    <span class='slider__value'>0</span>
+    <div class='slider'>
+      <input class='slider__range' type='range' value='0' min='0' max='100'>
+    </div>
+
+    <%= yield %>
   </div>
-
-  <%= yield %>
 
   <%= image_tag 'palmtree.jpg', id: 'palmtree', class: 'hidden' %>
 <% end %>
