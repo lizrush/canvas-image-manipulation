@@ -17,6 +17,7 @@ window.onload = function(){
 
   slider.oninput = function() {
     brightness = slider.value;
+    ctx.drawImage(img, 0, 0, img.width, img.height);
     var imageData = ctx.getImageData(0, 0, img.width, img.height);
 
     var adjustedImage = adjustBrightness(imageData.data, brightness);
