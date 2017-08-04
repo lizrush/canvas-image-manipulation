@@ -1,15 +1,37 @@
 window.onload = function(){
   var img    = document.getElementById('palmtree'),
       canvas = document.getElementById('canvas'),
-      ctx    = canvas.getContext('2d');
+      ctx    = canvas.getContext('2d')
+      slider = document.getElementById('brightness-adjustment'),
 
   canvas.width = img.width;
   canvas.height = img.height;
   ctx.drawImage(img, 0, 0, img.width, img.height);
 
   var imageData = ctx.getImageData(0, 0, img.width, img.height);
-  var data = imageData.data;
   var pixelCount = canvas.width * canvas.height;
+  var duoToneData = convertToDuoTone(imageData.data, pixelCount);
+  var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
+
+  ctx.putImageData(imageData, 0, 0);
+
+  slider.oninput = function() {
+    brightness = slider.value;
+    var imageData = ctx.getImageData(0, 0, img.width, img.height);
+
+    var adjustedImage = adjustBrightness(imageData.data, brightness);
+    var duoToneData = convertToDuoTone(adjustedImage, pixelCount);
+    var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
+
+    ctx.putImageData(imageData, 0, 0);
+  };
+};
+
+function convertToDuoTone(imageData, pixelCount) {
+  var pixels = imageData;
+  var pixelArray = [];
+
+  convertImageToGrayscale(pixels);
 
   // Color as array for rgb values
   // TODO: generate this array from an rgba color
@@ -20,23 +42,6 @@ window.onload = function(){
   // Create a gradient from which to pick colors from the duotone
   // based on pixel luminence.
   var gradientArray = createGradient(green, red);
-
-// add arbitrary amount to image for birghtness
-  var brightness = adjustBrightness(data, 150);
-
-  var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
-
-
-  var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
-
-  ctx.putImageData(imageData, 0, 0);
-};
-
-function convertToDuoTone(imageData, pixelCount, gradientArray) {
-  var pixels = imageData;
-  var pixelArray = [];
-
-  convertImageToGrayscale(pixels);
 
   for (var i = 0; i < pixelCount; i++) {
     var offset, r, g, b, a;
