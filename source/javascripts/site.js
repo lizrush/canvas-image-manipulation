@@ -19,10 +19,10 @@ window.onload = function(){
 
   // Create a gradient from which to pick colors from the duotone
   // based on pixel luminence.
-  var gradientArray = createGradient(red, green);
+  var gradientArray = createGradient(green, red);
 
 // add arbitrary amount to image for birghtness
-  var brightness = adjustBrightness(data, 100);
+  var brightness = adjustBrightness(data, 150);
 
   var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
 
@@ -69,10 +69,14 @@ function convertToDuoTone(imageData, pixelCount, gradientArray) {
 };
 
 function adjustBrightness(imageData, brightness) {
+  // NOTE: 'brightness' is a bit of misnomer here in that
+  // the slider amount (1 - 255) doesn't represent the amount
+  // by which to brighten, but rather to darken such that
+  // a pixel of 20% brightness corresponds to a mix of 20% green / 80% red
   for (var i = 0; i < imageData.length; i += 4) {
-      imageData[i] += brightness; // r
-      imageData[i + 1] += brightness; // g
-      imageData[i + 2] += brightness; // b
+      imageData[i] -= brightness; // r
+      imageData[i + 1] -= brightness; // g
+      imageData[i + 2] -= brightness; // b
   }
 
   return imageData;
