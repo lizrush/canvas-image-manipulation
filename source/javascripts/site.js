@@ -17,7 +17,7 @@ window.onload = function(){
 
   ctx.putImageData(imageData, 0, 0);
 
-  slider.oninput = function() {
+  slider.onchange = function() {
     brightness = slider.value;
     ctx.drawImage(img, 0, 0, img.width, img.height);
     var imageData = ctx.getImageData(0, 0, img.width, img.height);
