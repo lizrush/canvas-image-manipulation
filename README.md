@@ -8,7 +8,7 @@ This is a sample project that consists of an HTML document which uses a canvas e
 - [X] Write the pixel data from the image to the canvas.
 - [X] Transform the image into a duotone of complementary colors.
 - [X] Set the brightness of each pixel to map to a corresponding point on the gradient between the two colors.
-- [ ] Add a user interaction feature which modulates the duotone effect, allowing the user to transition between the canvas completely filled with the dark color to the complete duotone image and back.
+- [X] Add a user interaction feature which modulates the duotone effect, allowing the user to transition between the canvas completely filled with the dark color to the complete duotone image and back.
 - [ ] Update README with any additional information needed.
 
 
