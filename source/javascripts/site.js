@@ -21,8 +21,13 @@ window.onload = function(){
   // based on pixel luminence.
   var gradientArray = createGradient(green, red);
 
-  var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
-  var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
+// add arbitrary amount to image for birghtness
+  var brightness = adjustBrightness(data, 100);
+
+  // var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
+
+
+  var imageData = new ImageData(new Uint8ClampedArray(brightness), canvas.width, canvas.height);
 
   ctx.putImageData(imageData, 0, 0);
 };
@@ -62,6 +67,16 @@ function convertToDuoTone(imageData, pixelCount, gradientArray) {
 
   return pixelArray;
 };
+
+function adjustBrightness(imageData, brightness) {
+  for (var i = 0; i < imageData.length; i += 4) {
+      imageData[i] += brightness; // r
+      imageData[i + 1] += brightness; // g
+      imageData[i + 2] += brightness; // b
+  }
+
+  return imageData;
+}
 
 
 function convertImageToGrayscale(imageData) {
