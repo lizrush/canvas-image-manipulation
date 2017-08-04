@@ -19,15 +19,15 @@ window.onload = function(){
 
   // Create a gradient from which to pick colors from the duotone
   // based on pixel luminence.
-  var gradientArray = createGradient(green, red);
+  var gradientArray = createGradient(red, green);
 
 // add arbitrary amount to image for birghtness
   var brightness = adjustBrightness(data, 100);
 
-  // var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
+  var duoToneData =  convertToDuoTone(data, pixelCount, gradientArray);
 
 
-  var imageData = new ImageData(new Uint8ClampedArray(brightness), canvas.width, canvas.height);
+  var imageData = new ImageData(new Uint8ClampedArray(duoToneData), canvas.width, canvas.height);
 
   ctx.putImageData(imageData, 0, 0);
 };
